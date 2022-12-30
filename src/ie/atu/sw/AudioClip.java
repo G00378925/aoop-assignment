@@ -19,8 +19,9 @@ import javax.sound.sampled.*;
 public class AudioClip {
 	private Clip audioClip; // Internal Clip object
 	
-	/** This method is for helping reset the Clip object */
+	/** This method is used to help reset the Clip object */
 	private void resetAudioClip() {
+		// Flush buffer and reset frame position
 		this.audioClip.flush();
 		this.audioClip.setFramePosition(0);
 	}
@@ -30,7 +31,7 @@ public class AudioClip {
 	 * it will reset the audioClip when it stops playing,
 	 * so we can play it again.
 	 * 
-	 * @param event Current LineEvent object
+	 * @param event Current {@code LineEvent} object.
 	 */
 	private void lineListener(LineEvent event) {
 		var eventType = event.getType();
@@ -41,14 +42,14 @@ public class AudioClip {
 	}
 	
 	/**
-	 * It's not recommended to instantiate this object directly,
+	 * You can't instantiate this object directly,
 	 * you should use the loadAudioClip factory method instead.
 	 * 
-	 * @param ais This contains the input stream for an audio file
+	 * @param ais This contains the input stream for an audio file.
 	 */
 	private AudioClip(AudioInputStream ais) {
 		try {
-			// Set internal audioClip field
+			// Set internal audioClip attribute
 			this.audioClip = AudioSystem.getClip();
 			this.audioClip.open(ais);
 		} catch (LineUnavailableException e) {
@@ -61,10 +62,10 @@ public class AudioClip {
 	
 	/**
 	 * This factory method returns an instance of the {@link AudioClip} object
-	 * and loads the string parameter audioClipLocation.
+	 * and loads the audio file from the string parameter audioClipLocation.
 	 * 
-	 * @param audioClipLocation This is the string location of the sound file
-	 * @return Returns an {@link AudioClip} object containing the loaded sound file
+	 * @param audioClipLocation This is the string location of the audio file.
+	 * @return Returns a {@link AudioClip} object containing the loaded sound file.
 	 */
 	public static AudioClip loadAudioClip(String audioClipLocation) {
 		File audioFile = new File(audioClipLocation);
@@ -80,7 +81,7 @@ public class AudioClip {
 	}
 	
 	/**
-	 * Calling play will start playing the sound
+	 * Calling play will start playing the sound.
 	 */
 	public void play() {
 		// Set the lineListener callback, it will reset the line

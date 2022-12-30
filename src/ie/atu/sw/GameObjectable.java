@@ -8,7 +8,7 @@ package ie.atu.sw;
  */
 public interface GameObjectable {
 	/**
-	 * Initialises this GameObject.
+	 * Initializes this GameObject.
 	 * This method is called once when the {@link GameObject} is first created.
 	 */
 	public void start();

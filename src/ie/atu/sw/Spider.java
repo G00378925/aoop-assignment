@@ -22,22 +22,27 @@ public class Spider extends GameObject {
 		super(spiderLocation, SPRITE_LOCATION);
 	}
 	
+	/** Called on {@link GameObject} initialization. */
 	public void start() {
 		int atuColours[] = {
 				0xff001a79, 0xff7bb9cb, 0xff005b5e,
 				0xffffe8d4, 0xffff791e
 		};
 		
-		// The spider can decide their own colour
+		// The spider can decide their own colour randomly
 		int randomColourIndex = ThreadLocalRandom.current().nextInt(atuColours.length);
 		int randomColour = atuColours[randomColourIndex];
 		this.changeColour(randomColour);
 	}
 	
+	/**
+	 * Called once per a frame.
+	 */
 	public void update() {
 		Direction[] directionArray = Direction.values();
 		Direction newDirection = directionArray[ThreadLocalRandom.current().nextInt(directionArray.length)];
 		
+		// Spider randomly pick a direction, and move to it.
 		this.setDirection(newDirection);
 		this.nextSprite();
 		this.move();

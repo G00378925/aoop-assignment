@@ -6,6 +6,7 @@ import java.util.Collection;
 /**
  * {@link GameObjectStore} is used to store the {@link GameObject} in the game.
  * 
+ * This is similar to how {@code GameObject} hierarchies are implemented in game engines.
  * You can then query the {@link GameObjectStore}, for the name of the {@link GameObject}
  * 
  * @author Declan Kelly (g00378925@atu.ie)
@@ -31,7 +32,7 @@ public class GameObjectStore {
     
     /**
      * Returns all {@link GameObject} in the {@link GameObjectStore}.
-     * @return Array contain all {@link GameObject} in game.
+     * @return Array contains all {@link GameObject} in game.
      */
     public Collection<GameObjectable> getGameObjectArray() {
     	return gameObjectStore.values();

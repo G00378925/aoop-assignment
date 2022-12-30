@@ -1,7 +1,7 @@
 package ie.atu.sw;
 
 /**
- * This class starts that game, creates an instance of {@link GameView}.
+ * This class starts the game, creates an instance of {@link GameView}.
  * Loads the ground and objects {@link TileMatrix} from the files.
  */
 public class Runner {
@@ -33,7 +33,7 @@ public class Runner {
 	 * doesn't accept any command-line parameters.
 	 * 
 	 * @param args there are no command-line parameters accepted.
-	 * @throws Exception When can't find the tilemap files
+	 * @throws Exception When can't find the tilemap files.
 	 */
 	public static void main(String[] args) throws Exception {
 		/* Read in ground and object tile matrices */
@@ -42,7 +42,7 @@ public class Runner {
 		objects = TileMatrix.loadMatrixFromFile("./resources/tilemaps/objects.txt",
 				Sprite.loadSpriteList("./resources/images/objects"));
 
-		/* Spawning in the player entity, and adding them to the GameObjectStore */
+		/* Spawning in the player entity, and adding it to the GameObjectStore */
 		GameObjectStore.getInstance().add("Player", new Player(new Position(3, 3), objects));
 
 		/* Spawning in the spiders, and adding them to the GameObjectStore */

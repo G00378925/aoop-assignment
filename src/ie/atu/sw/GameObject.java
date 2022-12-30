@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 /**
  * This is the {@link GameObject} for entity's such as the {@link Player} or {@link Spider},
  * game engines such as Unity take a similar approach,
- * with each {@link GameObject} in the game having a start and update method
+ * with each {@link GameObject} in the game having a {@code start} and {@code update} method.
  * 
  * @author Declan Kelly (g00378925@atu.ie)
  *
@@ -13,13 +13,13 @@ import java.awt.image.BufferedImage;
 abstract public class GameObject implements GameObjectable {
 	private Direction currentDirection = Direction.DOWN; // The current orientation of the character
 	private int currentImageIndex = 0; // The current image index.
-	private Position currentPosition; // The current x, y position
-	private Sprite[][] spriteSheet; // The images used in the animation
+	private Position currentPosition; // The current x, y position.
+	private Sprite[][] spriteSheet; // The images used in the animation.
 	
 	/**
 	 * Set the current spritesheet for this {@link GameObject}.
 	 * 
-	 * @param spriteSheet contain an array of {@link Sprite} for this {@link GameObject}.
+	 * @param spriteSheet An array of {@link Sprite} will be used generate the spritesheet for this {@link GameObject}.
 	 */
 	protected void setSpritesheet(Sprite[][] spriteSheet) {
 		this.spriteSheet = spriteSheet;
@@ -28,24 +28,32 @@ abstract public class GameObject implements GameObjectable {
 	/** Go to the sprite for the current direction in the spritesheet */
 	protected void nextSprite() {
 		this.currentImageIndex++;
+		// Using modulo to go back to zero, if there is an overflow
 		this.currentImageIndex %= spriteSheet[currentDirection.getOrientation()].length;
 	}
 
 	/**
 	 * This method allows you to change the colour of all the sprites in the {@link GameObject} spritesheet.
-	 * @param newColour you want your spritesheet to be.
+	 * 
+	 * @param newColour The colour you want your spritesheet to be.
 	 */
 	protected void changeColour(int newColour) {
 		Sprite[][] spriteSheet = this.spriteSheet;
-		new Thread() {
+		
+		// Do this with threads to speedup load times
+		Runnable runnableThread = new Runnable() {
 			public void run() {
+				// This will loop through all the sprites in the spritesheet/matrix.
 		        for (int i = 0; i < spriteSheet.length; i++) {
 			        for (int j = 0; j < spriteSheet[i].length; j++) {
 			            spriteSheet[i][j].changeColour(newColour);
 			        }
                 }
 		    }
-		}.start();
+		};
+		
+		(new Thread(runnableThread)).start();
+		// Could use virtual threads here, but opted for backwards compatibility.
 	}
 	
 	/**
@@ -62,7 +70,7 @@ abstract public class GameObject implements GameObjectable {
 	}
 
 	/**
-	 * Fetch current sprite for this {@link GameObject}.
+	 * Fetch current sprite for this {@link GameObject}, used by the {@link Rendering} class.
 	 * 
 	 * @return a BufferedImage that is the current sprite.
 	 */
@@ -111,7 +119,7 @@ abstract public class GameObject implements GameObjectable {
 	
 	/**
 	 * Classes that inherit from the class, must implement this method,
-	 * it is called on {@link GameObject} initialisation.
+	 * it is called on {@link GameObject} initialization.
 	 */
 	abstract public void start();
 	

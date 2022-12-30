@@ -21,7 +21,7 @@ public class Sprite {
 	 * Construct a new {@link Sprite} object,
 	 * using a {@link BufferedImage} object.
 	 * 
-	 * @param bufferedImage you want the {@link Sprite} to be.
+	 * @param bufferedImage Image you want the {@link Sprite} to be.
 	 */
 	public Sprite(BufferedImage bufferedImage) {
 		this.internalSprite = bufferedImage;
@@ -30,7 +30,7 @@ public class Sprite {
 	/**
 	 * Return the encapsulated BufferedImage sprite.
 	 * 
-	 * @return BufferedImage sprite.
+	 * @return BufferedImage Raw buffered image sprite.
 	 */
 	public BufferedImage getImage() {
 		return this.internalSprite;
@@ -59,14 +59,15 @@ public class Sprite {
 
 	/**
 	 * 
-	 * Factory that generates spritesheet matrix of {@link Sprite} objects
+	 * Generates spritesheet matrix of {@link Sprite} objects
 	 * 
-	 * @param spriteList Array containg {@link Sprite} objects.
+	 * @param spriteList Array containing {@link Sprite} objects.
 	 * @return a new matrix spritesheet.
 	 */
 	public static Sprite[][] generateSpriteSheet(Sprite[] spriteList) {
 		Sprite spriteSheet[][] = new Sprite[DIRECTION_COUNT][spriteList.length / DIRECTION_COUNT];
-
+		
+		// Converts a 1D array into a 2D matrix.
 		for (int i = 0; i < spriteList.length; i++) {
 			int rowLength = spriteSheet[0].length;
 			int row = Math.floorDiv(i, rowLength), col = i % rowLength;
@@ -79,8 +80,8 @@ public class Sprite {
 	 * Loads an array of {@link Sprite} from a directory.
 	 * 
 	 * @param directory String containing the directory to load {@link Sprite} from.
-	 * @return an array of {@link Sprite} 
-	 * @throws Exception if there is an error reading the {@link Sprite} from the directory.
+	 * @return an array of {@link Sprite} objects.
+	 * @throws Exception Thrown if there is an error reading the {@link Sprite} from the directory.
 	 */
 	public static Sprite[] loadSpriteList(String directory) throws Exception {
 		File d = new File(directory);

@@ -1,8 +1,8 @@
 package ie.atu.sw;
 
 /**
- * The enum {@link Direction} defines the 4 directions of movement in the game and
- * assigns a number to each.
+ * The enum {@link Direction} defines the 4 directions of movement in the game,
+ * a number is assigned to each direction.
  */
 public enum Direction {
 	/** Represents the UP direction */
@@ -19,7 +19,7 @@ public enum Direction {
 	/**
 	 * Create an new Direction object, using a orientation integer.
 	 * 
-	 * @param orientation integer value of the orientation.
+	 * @param orientation Integer value of the orientation.
 	 */
 	private Direction(int orientation) {
 		this.orientation = orientation;
@@ -28,7 +28,7 @@ public enum Direction {
 	/**
 	 * Get the current orientation integer.
 	 * 
-	 * @return Returns the current orientation
+	 * @return Returns the current orientation integer value.
 	 */
 	public int getOrientation() {
 		return this.orientation;

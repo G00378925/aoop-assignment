@@ -27,14 +27,14 @@ public class GameView extends JPanel implements KeyListener {
 	/**
 	 * Construct a new {@link GameView} object,
 	 * using ground and objects {@link TileMatrix} objects, loaded by Runner.
-	 * @param ground a {@link TileMatrix} object.
-	 * @param objects a {@link TileMatrix} object.
+	 * @param ground a {@link TileMatrix} ground object.
+	 * @param objects a {@link TileMatrix} objects object.
 	 */
 	public GameView(TileMatrix ground, TileMatrix objects) {
 		this.ground = ground;
 		this.objects = objects;
 
-		setBackground(Color.WHITE); // Really? All this config is multi-step and maybe a candidate for a builder.
+		setBackground(Color.WHITE);
 		setDoubleBuffered(true); // Each image is buffered twice to avoid tearing / stutter
 
 		timer = new Timer(100, this::actionPerformed); // calls the actionPerformed() method every 100ms
@@ -45,6 +45,7 @@ public class GameView extends JPanel implements KeyListener {
 		this.setMinimumSize(d);
 		this.setMaximumSize(d);
 		
+		// Call the start method on all the GameObject's in the GameObjectStore
 		for (GameObjectable go : GameObjectStore.getInstance().getGameObjectArray()) {
 			go.start();
 		}
@@ -61,14 +62,17 @@ public class GameView extends JPanel implements KeyListener {
 	
 	/**
 	 * This is called each time the timer reaches zero
+	 * 
 	 * @param actionEvent information about the current key press.
 	 */
 	public void actionPerformed(ActionEvent actionEvent) { 
 		// Call update on all Entity's in the GameObjectStore
+		// This could allow objects to update their state per a frame
 		for (GameObjectable go : GameObjectStore.getInstance().getGameObjectArray()) {
 			go.update();
 		}
 
+		// Redraw the view
 		this.repaint();
 	}
 
@@ -76,16 +80,15 @@ public class GameView extends JPanel implements KeyListener {
 	 * Paints the component on the screen.
 	 * This method is called automatically by the UI system and should not be called directly.
 	 *
-	 * @param graphics the graphics context to use for painting
+	 * @param graphics the {@code Graphics} context to use for painting
 	 */
 	public void paintComponent(Graphics graphics) {
 		super.paintComponent(graphics);
-		// Graphics2D has more features to use
 		Graphics2D graphics2D = (Graphics2D) graphics;
-		
 		
 		Renderer.renderMatrices(graphics2D, ground, objects, isIsometric);
 
+		// Render each GameObject using the Renderer class
 		for (GameObjectable go : GameObjectStore.getInstance().getGameObjectArray())
 			Renderer.renderGameObject(graphics2D, (GameObject) go);
 	}
@@ -159,7 +162,7 @@ public class GameView extends JPanel implements KeyListener {
 	     * Sets the ground matrix for the {@link GameView}.
 	     *
 	     * @param groundMatrix the ground {@link TileMatrix}.
-	     * @return this {@code Builder} object
+	     * @return this {@code Builder} object.
 	     */
 		public Builder setGroundMatrix(TileMatrix groundMatrix) {
 			this.groundMatrix = groundMatrix;
@@ -170,7 +173,7 @@ public class GameView extends JPanel implements KeyListener {
 	     * Sets the objects matrix for the {@link GameView}.
 	     *
 	     * @param objectsMatrix the objects {@link TileMatrix}.
-	     * @return this {@code Builder} object
+	     * @return this {@code Builder} object.
 	     */
 		public Builder setObjectsMatrix(TileMatrix objectsMatrix) {
 			this.objectsMatrix = objectsMatrix;
@@ -178,9 +181,10 @@ public class GameView extends JPanel implements KeyListener {
 		}
 		
 	    /**
-	     * Creates and returns a new instance of the {@link GameView} with the properties set in this {@code Builder}.
+	     * Creates and returns a new instance of the {@link GameView}
+	     * with the properties set in this {@code Builder}.
 	     *
-	     * @return a new instance of the {@link GameView}
+	     * @return a new instance of the {@link GameView} object.
 	     */
 		public GameView build() {
 			GameView view = new GameView(this.groundMatrix, this.objectsMatrix);
